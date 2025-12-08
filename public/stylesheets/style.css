@@ -1,0 +1,244 @@
+/* ------------------------------
+   全体
+------------------------------ */
+body {
+  margin: 0;
+  font-family: "Helvetica", "Arial", sans-serif;
+  background: #f2f5f9;
+  padding-bottom: 50px;
+}
+
+
+/* ------------------------------
+   サマリー（上の帯）
+------------------------------ */
+.summary-wrapper {
+  width: 100%;
+  background: #dff0ff;
+  padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;   /* 収入・支出・残高の間隔 */
+  position: relative;
+  box-sizing: border-box;
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-item .label {
+  font-size: 14px;
+  color: #555;
+}
+
+.summary-item .value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.income { color: #0077cc; }
+.expense { color: #cc4444; }
+.balance { color: #333; }
+
+
+/* 🔍 検索ボタン（右上固定） */
+.filter-btn {
+  position: absolute;
+  right: 20px;
+  background: #f4faff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 5px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+
+/* ------------------------------
+   フィルタ
+------------------------------ */
+.filter-box {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: none;
+}
+
+.filter-box.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-box label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.filter-box select,
+.filter-box input[type="date"] {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 140px;
+}
+
+input[type="date"] {
+  height: 40px;
+}
+
+.search-btn {
+  padding: 10px 18px;
+  background: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+/* ------------------------------
+   中央コンテンツ
+------------------------------ */
+.container {
+  width: 600px;
+  margin: 40px auto;
+}
+
+
+/* ------------------------------
+   入力フォームカード
+------------------------------ */
+.input-card {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.input-card input,
+.input-card select,
+.input-card textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 10px;
+  background: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+/* ------------------------------
+   アイテムカード
+------------------------------ */
+.item-card {
+  background: #ffffff;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-left: 6px solid #0077cc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.item-card.expense {
+  border-left-color: #cc4444;
+}
+
+
+/* アイテム全体レイアウト（左：内容 / 右：日付＋ボタン） */
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* 左側の項目部分 */
+.item-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.item-left .amount {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* 右側：上に日付、下にボタン横並び */
+.item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  min-width: 110px;
+}
+
+.date {
+  font-size: 12px;
+  color: #666;
+}
+
+
+/* 編集・削除ボタン（右上に配置できるサイズ） */
+.item-actions-inline {
+  display: flex;
+  gap: 6px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+}
+
+.edit-btn { background: #27ae60; }
+.delete-btn { background: #e74c3c; }
+
+/* アイテムカード内の文字間隔を縮める */
+.item-left h3,
+.item-left p {
+  margin: 2px 0;     /* ← 上下の余白を最小化 */
+  line-height: 1.2;  /* ← 行の高さも詰める */
+}
+
+.item-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+.detail-btn {
+  background: #4a90e2;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.detail-btn:hover {
+  opacity: 0.9;
+}

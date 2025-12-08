@@ -1,0 +1,127 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>収支一覧</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+<!-- ▼ サマリー帯 -->
+<div class="summary-wrapper">
+  <div class="summary-item income">
+    <span class="label">総収入</span>
+    <span class="value">¥<%= income.toLocaleString() %></span>
+  </div>
+
+  <div class="summary-item expense">
+    <span class="label">総支出</span>
+    <span class="value">¥<%= expense.toLocaleString() %></span>
+  </div>
+
+  <div class="summary-item balance">
+    <span class="label">残高</span>
+    <span class="value">¥<%= balance.toLocaleString() %></span>
+  </div>
+
+  <button class="filter-btn" onclick="toggleFilter()">🔍</button>
+</div>
+
+<!-- ▼ 検索フィルタ -->
+<div id="filterBox" class="filter-box">
+  <form action="/items" method="GET">
+    <label>区分：</label>
+    <select name="type">
+      <option value="">すべて</option>
+      <option value="income">収入</option>
+      <option value="expense">支出</option>
+    </select>
+
+    <label>開始日：</label>
+    <input type="date" name="createdAt" placeholder="日付（任意）">
+
+
+    <label>終了日：</label>
+    <input type="date" name="createdAt" placeholder="日付（任意）">
+
+    <button class="search-btn">検索</button>
+  </form>
+</div>
+
+<div class="container">
+
+  <!-- ▼ 追加フォーム -->
+  <div class="input-card">
+    <h2>新しい収支を追加</h2>
+
+   <form action="/items" method="POST">
+      <input type="date" name="createdAt" placeholder="日付" required>
+      <input type="text" name="event" placeholder="項目名" required>
+      <input type="number" name="amount" placeholder="金額" required>
+
+      <select name="type" required>
+        <option value="">区分を選択</option>
+        <option value="income">収入</option>
+        <option value="expense">支出</option>
+      </select>
+
+      <textarea name="memo" placeholder="メモ（任意）"></textarea>
+
+      <button class="add-btn">追加</button>
+    </form>
+  </div>
+
+
+  <!-- ▼ 一覧表示 -->
+  <!-- ▼ 一覧表示 -->
+<% items.forEach(item => { %>
+  <div class="item-card <%= item.type %>">
+    <div class="item-row">
+
+      <!-- 左側 -->
+      <div class="item-left">
+        <h3 class="item-title"><%= item.event %></h3>
+        <p class="amount">¥<%= item.amount %></p>
+        <p class="type"><%= item.type === "income" ? "収入" : "支出" %></p>
+
+        <% if (item.memo) { %>
+          <p class="memo"><%= item.memo %></p>
+        <% } %>
+      </div>
+
+      <!-- 右側（ボタン含む） -->
+      <div class="item-right">
+        <p class="date"><%= item.createdAt.toLocaleDateString() %></p>
+
+        <div class="item-actions-inline">
+          <a href="/items/detail?id=<%= item.id %>" class="detail-btn">詳細</a>
+          <a href="/items/edit/<%= item.id %>" class="edit-btn">編集</a>
+          <a href="/items/delete/<%= item.id %>" class="delete-btn">削除</a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+<% }) %>
+
+
+</div>
+
+<script>
+  function toggleFilter() {
+    document.getElementById('filterBox').classList.toggle('show');
+  }
+
+  flatpickr("input[name='createdAt']", {
+    dateFormat: "Y/m/d",
+    locale: "ja",
+  });
+</script>
+
+</body>
+</html>

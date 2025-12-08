@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>収支一覧</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="/javascripts/filter.js" defer></script>
+</head>
+
+<body>
+
+<!-- 🔍 フィルタボタン -->
+<div class="filter-button" id="filterToggle">🔍</div>
+
+<!-- 🔽 フィルタパネル -->
+<div class="filter-panel" id="filterPanel">
+  <h3>検索フィルタ</h3>
+  <form action="/items" method="GET">
+    <label>区分：</label>
+    <select name="type">
+      <option value="">すべて</option>
+      <option value="income">収入</option>
+      <option value="expense">支出</option>
+    </select>
+
+    <label>開始日：</label>
+    <input type="date" name="start">
+
+    <label>終了日：</label>
+    <input type="date" name="end">
+
+    <button type="submit">絞り込み</button>
+  </form>
+</div>
+
+<div class="container">
+
+  <h1>収支一覧</h1>
+  <p><a href="/auth/logout">ログアウト</a></p>
+
+  <!-- ==================== 🔵 サマリー帯 ==================== -->
+  <section class="summary-container">
+    <div class="summary-card income">
+      <span class="label">総収入</span>
+      <span class="value">¥<%= summary.incomeTotal.toLocaleString() %></span>
+    </div>
+
+    <div class="summary-card expense">
+      <span class="label">総支出</span>
+      <span class="value">¥<%= summary.expenseTotal.toLocaleString() %></span>
+    </div>
+
+    <div class="summary-card balance">
+      <span class="label">残高</span>
+      <span class="value">¥<%= summary.balance.toLocaleString() %></span>
+    </div>
+  </section>
+
+  <!-- ==================== 🟣 追加フォーム ==================== -->
+  <section class="input-box">
+    <h2>新しい収支を追加</h2>
+
+    <form action="/items" method="POST">
+      <label>項目名</label>
+      <input type="text" name="event" placeholder="例：ランチ代" required>
+
+      <label>金額</label>
+      <input type="number" name="amount" placeholder="例：1200" required>
+
+      <label>区分</label>
+      <select name="type" required>
+        <option value="">選択してください</option>
+        <option value="income">収入</option>
+        <option value="expense">支出</option>
+      </select>
+
+      <label>メモ（任意）</label>
+      <textarea name="memo" placeholder="必要であれば入力"></textarea>
+
+      <button type="submit">追加</button>
+    </form>
+  </section>
+
+  <!-- ==================== 🔥 一覧カード ==================== -->
+  <section>
+    <h2>登録済みの収支</h2>
+
+    <% if (items.length === 0) { %>
+      <p>まだ収支データがありません。</p>
+    <% } %>
+
+    <% items.forEach(item => { %>
+      <div class="item-card <%= item.type %>">
+
+  <!-- ここが「タイトル + 編集/削除ボタンの横並び」部分 -->
+      <div class="item-header">
+        <h3><%= item.event %></h3>
+
+        <div class="item-actions-inline">
+          <a href="/items/edit/<%= item.id %>" class="edit-btn">編集</a>
+          <a href="/items/delete/<%= item.id %>" class="delete-btn" onclick="return confirm('本当に削除しますか？');">削除</a>
+        </div>
+      </div>
+
+      <p class="amount">¥<%= item.amount %></p>
+      <p class="type"><%= item.type === "income" ? "収入" : "支出" %></p>
+
+      <% if (item.memo) { %>
+        <p class="memo"><%= item.memo %></p>
+      <% } %>
+
+      <p class="date"><%= item.createdAt.toLocaleDateString() %></p>
+    </div>
+
+    <% }) %>
+
+  </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>収支一覧</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+  <h1>収支一覧</h1>
+  <p><a href="/auth/logout">ログアウト</a></p>
+
+  <link rel="stylesheet" href="/stylesheets/style.css">
+
+  <!-- ▼ ここが「一覧画面で直接追加できるフォーム」 -->
+  <section class="input-box">
+    <h2>新しい収支を追加</h2>
+
+    <form action="/items/new" method="POST">
+      <label>項目名</label>
+      <input type="text" name="event" required>
+
+      <label>金額</label>
+      <input type="number" name="amount" required>
+
+      <label>区分</label>
+      <select name="type" required>
+        <option value="">選択してください</option>
+        <option value="income">収入</option>
+        <option value="expense">支出</option>
+      </select>
+
+      <label>メモ（任意）</label>
+      <textarea name="memo"></textarea>
+
+      <button type="submit">登録する</button>
+    </form>
+  </section>
+
+  <!-- ▼ ここから収支一覧 -->
+  <section>
+    <h2>登録済みの収支</h2>
+
+    <% if (items.length === 0) { %>
+      <p>まだ収支データがありません。</p>
+    <% } %>
+
+    <% items.forEach(item => { %>
+      <div class="item-card">
+        <p><strong><%= item.event %></strong></p>
+        <p>金額：¥<%= item.amount %></p>
+        <p>区分：<%= item.type === "income" ? "収入" : "支出" %></p>
+
+        <% if (item.memo) { %>
+          <p>メモ：<%= item.memo %></p>
+        <% } %>
+
+        <p>登録日：<%= item.createdAt.toLocaleString("ja-JP") %></p>
+
+        <!-- 🔽 編集・削除ボタン -->
+        <div class="item-actions">
+          <a href="/items/edit/<%= item.id %>" class="edit-btn">編集</a>
+          <a href="/items/delete/<%= item.id %>" class="delete-btn" onclick="return confirm('本当に削除しますか？');">削除</a>
+        </div>
+
+      </div>
+    <% }) %>
+
+  </section>
+
+</body>
+</html>

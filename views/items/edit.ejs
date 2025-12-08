@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>収支編集</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1>収支を編集</h1>
+
+  <div class="input-card">
+
+    <form action="/items/edit/<%= item.id %>" method="POST">
+
+      <input
+        type="text"
+        name="event"
+        value="<%= item.event %>"
+        placeholder="項目名"
+        required
+      >
+
+      <input
+        type="number"
+        name="amount"
+        value="<%= item.amount %>"
+        placeholder="金額"
+        required
+      >
+
+      <select name="type" required>
+        <option value="income" <%= item.type === 'income' ? 'selected' : '' %>>収入</option>
+        <option value="expense" <%= item.type === 'expense' ? 'selected' : '' %>>支出</option>
+      </select>
+
+      <textarea name="memo" placeholder="メモ（任意）"><%= item.memo || '' %></textarea>
+
+      <button class="add-btn">更新する</button>
+
+    </form>
+
+  </div>
+
+  <a href="/items" class="back-link">← 一覧に戻る</a>
+</div>
+
+</body>
+</html>

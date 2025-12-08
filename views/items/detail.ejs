@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title><%= item.event %> の詳細</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <h1><%= item.event %> の詳細</h1>
+
+  <div class="item-card <%= item.type %>">
+
+    <p><strong>項目名：</strong> <%= item.event %></p>
+    <p><strong>金額：</strong> ¥<%= item.amount.toLocaleString() %></p>
+    <p><strong>区分：</strong> <%= item.type === "income" ? "収入" : "支出" %></p>
+
+    <% if (item.memo) { %>
+      <p><strong>メモ：</strong> <%= item.memo %></p>
+    <% } %>
+
+    <p><strong>登録日：</strong> <%= item.createdAt.toLocaleDateString("ja-JP") %></p>
+
+    <br>
+    <a href="/items" class="edit-btn">一覧に戻る</a>
+
+  </div>
+
+</div>
+
+</body>
+</html>

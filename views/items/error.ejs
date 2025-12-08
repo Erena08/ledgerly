@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Error</title>
+  <style>
+    body { font-family: Arial; padding: 50px; text-align: center; }
+    h1 { color: #c00; }
+    .msg { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>エラーが発生しました</h1>
+
+  <div class="msg">
+    <p><%= message %></p>
+    <% if (error && error.status) { %>
+      <p>Status: <%= error.status %></p>
+    <% } %>
+  </div>
+
+  <a href="/">ホームへ戻る</a>
+</body>
+</html>
