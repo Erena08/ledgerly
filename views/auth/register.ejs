@@ -2,30 +2,95 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>新規登録</title>
-  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div class="container">
-    <h1>新規登録</h1>
+    <div class="login-container">
+      <h1>新規登録</h1>
 
-    <% if (error) { %>
-      <p class="error"><%= error %></p>
-    <% } %>
+      <form action="/auth/register" method="POST">
+        <input type="email" name="email" placeholder="メールアドレス" required>
+        <input type="password" name="password" placeholder="パスワード" required>
 
-    <form action="/auth/register" method="POST">
-      <label>メールアドレス</label>
-      <input type="email" name="email" required>
+        <button type="submit">登録する</button>
+      </form>
 
-      <label>パスワード</label>
-      <input type="password" name="password" required>
-
-      <button type="submit">登録</button>
-    </form>
-
-    <p style="margin-top:20px; text-align:center;">
-      <a href="/auth/login">ログインはこちら</a>
-    </p>
+      <div class="link">
+        <a href="/auth/login">ログインはこちら</a>
+      </div>
+    </div>
   </div>
 </body>
+
+<style>
+  body {
+    background: #f5f7fb;
+    font-family: 'Helvetica Neue', sans-serif;
+    margin: 0;
+  }
+
+  /* 共通センタリング */
+  .container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ここからログイン画面と同じデザイン */
+  .login-container {
+    width: 380px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  button:hover {
+    background: #005fcc;
+  }
+
+  .link {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .link a:hover {
+    text-decoration: underline;
+  }
+</style>
 </html>

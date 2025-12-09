@@ -75,12 +75,11 @@ if (start || end) {
 // ----------------------------------------
 // ▶ itemsページ内フォームから新規追加
 // ----------------------------------------
+// ----------------------------------------
+// ▶ itemsページ内フォームから新規追加
+// ----------------------------------------
 router.post("/", requireLogin, async (req, res) => {
-  const { event, amount, type, memo } = req.body;
-
-  if (!event || !amount || !type) {
-    return res.redirect("/items?error=1");
-  }
+  const { event, amount, type, memo, createdAt } = req.body;
 
   await prisma.item.create({
     data: {
@@ -88,6 +87,7 @@ router.post("/", requireLogin, async (req, res) => {
       amount: Number(amount),
       type,
       memo,
+      createdAt: new Date(createdAt),  // ← date ではなく createdAt！
       userId: req.session.userId,
     },
   });
@@ -95,17 +95,27 @@ router.post("/", requireLogin, async (req, res) => {
   res.redirect("/items");
 });
 
+
+
+
 // 編集ページ表示
+// 編集ページ表示（これがないと404になる）
 router.get("/edit/:id", requireLogin, async (req, res) => {
   const item = await prisma.item.findUnique({
     where: { id: Number(req.params.id) }
   });
+
+  if (!item) return res.redirect("/items");
+
   res.render("items/edit", { item });
 });
 
+
+
+
 // 編集処理
 router.post("/edit/:id", requireLogin, async (req, res) => {
-  const { event, amount, type, memo } = req.body;
+  const { event, amount, type, memo, createdAt } = req.body;
 
   await prisma.item.update({
     where: { id: Number(req.params.id) },
@@ -113,12 +123,14 @@ router.post("/edit/:id", requireLogin, async (req, res) => {
       event,
       amount: Number(amount),
       type,
-      memo
+      memo,
+      createdAt: new Date(createdAt)   // ← 入力された日付をそのまま反映！
     }
   });
 
   res.redirect("/items");
 });
+
 
 // ▶ 詳細ページ
 router.get("/detail", requireLogin, async (req, res) => {

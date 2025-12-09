@@ -61,24 +61,25 @@
     <h2>新しい収支を追加</h2>
 
     <form action="/items" method="POST">
-      <label>項目名</label>
-      <input type="text" name="event" placeholder="例：ランチ代" required>
+      
+      <!-- ★ 日付を追加（ここを追加する！） -->
+      <input type="date" name="createdAt" required>
 
-      <label>金額</label>
-      <input type="number" name="amount" placeholder="例：1200" required>
 
-      <label>区分</label>
+      <input type="text" name="event" placeholder="項目名" required>
+      <input type="number" name="amount" placeholder="金額" required>
+
       <select name="type" required>
-        <option value="">選択してください</option>
+        <option value="">区分を選択</option>
         <option value="income">収入</option>
         <option value="expense">支出</option>
       </select>
 
-      <label>メモ（任意）</label>
-      <textarea name="memo" placeholder="必要であれば入力"></textarea>
+      <textarea name="memo" placeholder="メモ（任意）"></textarea>
 
-      <button type="submit">追加</button>
+      <button class="add-btn">追加</button>
     </form>
+
   </section>
 
   <!-- ==================== 🔥 一覧カード ==================== -->

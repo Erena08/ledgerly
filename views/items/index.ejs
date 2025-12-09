@@ -1,13 +1,15 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>収支一覧</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="/stylesheets/style.css">
+
+  <!-- flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
 
@@ -31,7 +33,7 @@
   <button class="filter-btn" onclick="toggleFilter()">🔍</button>
 </div>
 
-<!-- ▼ 検索フィルタ -->
+<!-- ▼ 検索フィルタ（start / end に修正済み） -->
 <div id="filterBox" class="filter-box">
   <form action="/items" method="GET">
     <label>区分：</label>
@@ -42,11 +44,11 @@
     </select>
 
     <label>開始日：</label>
-    <input type="date" name="createdAt" placeholder="日付（任意）">
-
+    <input type="date" name="start">
 
     <label>終了日：</label>
-    <input type="date" name="createdAt" placeholder="日付（任意）">
+    <input type="date" name="end">
+
 
     <button class="search-btn">検索</button>
   </form>
@@ -54,12 +56,14 @@
 
 <div class="container">
 
-  <!-- ▼ 追加フォーム -->
+  <!-- ▼ 追加フォーム（日付 name → date に変更済み） -->
   <div class="input-card">
     <h2>新しい収支を追加</h2>
 
-   <form action="/items" method="POST">
+    <form action="/items" method="POST">
       <input type="date" name="createdAt" placeholder="日付" required>
+
+
       <input type="text" name="event" placeholder="項目名" required>
       <input type="number" name="amount" placeholder="金額" required>
 
@@ -75,40 +79,37 @@
     </form>
   </div>
 
-
   <!-- ▼ 一覧表示 -->
-  <!-- ▼ 一覧表示 -->
-<% items.forEach(item => { %>
-  <div class="item-card <%= item.type %>">
-    <div class="item-row">
+  <% items.forEach(item => { %>
+    <div class="item-card <%= item.type %>">
+      <div class="item-row">
 
-      <!-- 左側 -->
-      <div class="item-left">
-        <h3 class="item-title"><%= item.event %></h3>
-        <p class="amount">¥<%= item.amount %></p>
-        <p class="type"><%= item.type === "income" ? "収入" : "支出" %></p>
+        <!-- 左側 -->
+        <div class="item-left">
+          <h3 class="item-title"><%= item.event %></h3>
+          <p class="amount">¥<%= item.amount %></p>
+          <p class="type"><%= item.type === "income" ? "収入" : "支出" %></p>
 
-        <% if (item.memo) { %>
-          <p class="memo"><%= item.memo %></p>
-        <% } %>
-      </div>
-
-      <!-- 右側（ボタン含む） -->
-      <div class="item-right">
-        <p class="date"><%= item.createdAt.toLocaleDateString() %></p>
-
-        <div class="item-actions-inline">
-          <a href="/items/detail?id=<%= item.id %>" class="detail-btn">詳細</a>
-          <a href="/items/edit/<%= item.id %>" class="edit-btn">編集</a>
-          <a href="/items/delete/<%= item.id %>" class="delete-btn">削除</a>
+          <% if (item.memo) { %>
+            <p class="memo"><%= item.memo %></p>
+          <% } %>
         </div>
+
+        <!-- 右側（詳細・編集・削除） -->
+        <div class="item-right">
+          <p class="date"><%= item.createdAt.toLocaleDateString() %></p>
+
+          <div class="item-actions-inline">
+            <a href="/items/detail?id=<%= item.id %>" class="detail-btn">詳細</a>
+            <a href="/items/edit/<%= item.id %>" class="edit-btn">編集</a>
+            <a href="/items/delete/<%= item.id %>" class="delete-btn"
+               onclick="return confirm('本当に削除しますか？')">削除</a>
+          </div>
+        </div>
+
       </div>
-
     </div>
-
-  </div>
-<% }) %>
-
+  <% }) %>
 
 </div>
 
@@ -117,10 +118,12 @@
     document.getElementById('filterBox').classList.toggle('show');
   }
 
+  // ▼ 追加フォームの日付入力を flatpickr に変更
   flatpickr("input[name='createdAt']", {
-    dateFormat: "Y/m/d",
+    dateFormat: "Y-m-d",
     locale: "ja",
   });
+
 </script>
 
 </body>

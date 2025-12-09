@@ -2,49 +2,38 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>収支編集</title>
+  <title>編集</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
 
-<div class="container">
+<div class="container input-card">
+  <h2>収支を編集</h2>
 
-  <h1>収支を編集</h1>
+  <form action="/items/edit/<%= item.id %>" method="POST">
 
-  <div class="input-card">
+    <label>日付</label>
+    <input type="date" name="createdAt" value="<%= item.createdAt.toISOString().slice(0,10) %>" required>
 
-    <form action="/items/edit/<%= item.id %>" method="POST">
 
-      <input
-        type="text"
-        name="event"
-        value="<%= item.event %>"
-        placeholder="項目名"
-        required
-      >
 
-      <input
-        type="number"
-        name="amount"
-        value="<%= item.amount %>"
-        placeholder="金額"
-        required
-      >
+    <label>項目名</label>
+    <input type="text" name="event" value="<%= item.event %>" required>
 
-      <select name="type" required>
-        <option value="income" <%= item.type === 'income' ? 'selected' : '' %>>収入</option>
-        <option value="expense" <%= item.type === 'expense' ? 'selected' : '' %>>支出</option>
-      </select>
+    <label>金額</label>
+    <input type="number" name="amount" value="<%= item.amount %>" required>
 
-      <textarea name="memo" placeholder="メモ（任意）"><%= item.memo || '' %></textarea>
+    <label>区分</label>
+    <select name="type" required>
+      <option value="income" <%= item.type === "income" ? "selected" : "" %>>収入</option>
+      <option value="expense" <%= item.type === "expense" ? "selected" : "" %>>支出</option>
+    </select>
 
-      <button class="add-btn">更新する</button>
+    <label>メモ</label>
+    <textarea name="memo"><%= item.memo || "" %></textarea>
 
-    </form>
-
-  </div>
-
-  <a href="/items" class="back-link">← 一覧に戻る</a>
+    <button type="submit" class="add-btn">更新する</button>
+  </form>
 </div>
 
 </body>
